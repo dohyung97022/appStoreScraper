@@ -38,9 +38,9 @@ func (*toolsGetStr) fromInt(fromInt int) (resStr string) {
 }
 
 //getStr.regex
-func (*toolsGetStr) regex(fromStr string, regexStr string) (resStr string, err error) {
+func (*toolsGetStr) regex(fromStr *string, regexStr string) (resStr string, err error) {
 	rgx := regexp.MustCompile(regexStr)
-	resStr = rgx.FindString(fromStr)
+	resStr = rgx.FindString(*fromStr)
 	if resStr == "" {
 		err = errors.New("error : getStr.regex rgx.FindString has no regex match")
 		return "", err
@@ -96,9 +96,9 @@ func (toolsGetStr) before(originalStr string, beforeStr string) (resStr string, 
 type toolsGetStrAry struct{}
 
 //getStrAry.regex
-func (*toolsGetStrAry) regex(fromStr string, regexStr string) (resStrAry []string, err error) {
+func (*toolsGetStrAry) regex(fromStr *string, regexStr string) (resStrAry []string, err error) {
 	rgx := regexp.MustCompile(regexStr)
-	resStrAry = rgx.FindAllString(fromStr, -1)
+	resStrAry = rgx.FindAllString(*fromStr, -1)
 	if len(resStrAry) == 0 {
 		err = errors.New("error : getStrAry.regex rgx.FindAllString has no regex match")
 		return nil, err
@@ -107,9 +107,9 @@ func (*toolsGetStrAry) regex(fromStr string, regexStr string) (resStrAry []strin
 }
 
 //getStrAry.noDuplicate
-func (*toolsGetStrAry) noDuplicate(strAry []string) (res []string) {
+func (*toolsGetStrAry) noDuplicate(strAry *[]string) (res []string) {
 	noDuplicate := make(map[string]bool)
-	for _, str := range strAry {
+	for _, str := range *strAry {
 		if _, wasInserted := noDuplicate[str]; !wasInserted {
 			noDuplicate[str] = true
 			res = append(res, str)
